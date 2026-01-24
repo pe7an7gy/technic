@@ -65,6 +65,10 @@ if minetest.get_modpath("farming") and farming.mod and (farming.mod == "redo" or
 		                        output = {"farming:garlic_clove 10"} })
 	table.insert(recipes, { input = "farming:pepper", 
 		                        output = {"farming:peppercorn 2"} })
+	table.insert(recipes, { input = "farming:pepper_r", 
+		                        output = {"farming:peppercorn 2"} })
+	table.insert(recipes, { input = "farming:pepper_y", 
+		                        output = {"farming:peppercorn 2"} })
 
 	
 	if minetest.get_modpath("cottages") and cottages.mod and cottages.mod == "linuxforks" then
