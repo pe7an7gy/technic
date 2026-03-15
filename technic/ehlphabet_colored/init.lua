@@ -74,9 +74,9 @@ for _, name in ipairs(characters) do
         key.."_sticker_color",
         {
             description = desc.." Colored Sticker",
-            tiles = {"technic_paint.png" },
-            overlay_tiles = {"ehlphabet_" .. file .. ".png^[makealpha:128,128,128",
-		      "ehlphabet_" .. file .. ".png^[transformR180^[makealpha:128,128,128" },
+            tiles = {"technic_paint.png^[colorize:#000000" },
+            overlay_tiles = {"ehlphabet_" .. file .. ".png",
+		      "ehlphabet_" .. file .. ".png^[transformR180" },
             palette = "technic_paint_palette.png",
 	    inventory_image = "ehlphabet_" .. file .. ".png",
             paramtype = "light",
@@ -91,11 +91,36 @@ for _, name in ipairs(characters) do
 			wall_side = {-0.5, -0.5, -0.5, -0.49, 0.5, 0.5},
                 },
             groups = {attached_node = 1, dig_immediate = 2,  
-                         --not_in_creative_inventory = 1, 
+                         not_in_creative_inventory = 1, 
 			 not_blocking_trains = 1 },
         }
     )
 
+    minetest.register_node(
+        key.."_sticker_color_inv",
+        {
+            description = desc.." Colored Sticker",
+            tiles = {{name = "technic_paint.png^[colorize:#ffffff", color = "white"}},
+            overlay_tiles = {"ehlphabet_" .. file .. ".png",
+		      "ehlphabet_" .. file .. ".png^[transformR180" },
+            palette = "technic_paint_palette.png",
+	    inventory_image = "ehlphabet_" .. file .. ".png",
+            paramtype = "light",
+            paramtype2 = "colorwallmounted",
+            drawtype = "nodebox",
+            is_ground_content = false,   
+            drop = key.."_sticker", 
+  	    node_box = {
+			type = "wallmounted",
+			wall_bottom = {-0.5, -0.5, -0.5, 0.5, -0.49, 0.5},
+			wall_top = {-0.5, 0.49, -0.5, 0.5, 0.5, 0.5},
+			wall_side = {-0.5, -0.5, -0.5, -0.49, 0.5, 0.5},
+                },
+            groups = {attached_node = 1, dig_immediate = 2,  
+                         not_in_creative_inventory = 1, 
+			 not_blocking_trains = 1 },
+        }
+    )
 
 
 end
@@ -112,9 +137,35 @@ minetest.register_node(
  key.."_sticker_color",
  {
     description = desc.." Colored Sticker",
-    tiles = {"technic_paint.png" },
-    overlay_tiles = {"ehlphabet_000.png^[makealpha:0,0,0", 
-    	      "ehlphabet_000.png^[transformR180^[makealpha:0,0,0" },
+    tiles = {"technic_paint.png^[colorize:#000000" },
+    overlay_tiles = {"ehlphabet_000.png", 
+    	      "ehlphabet_000.png^[transformR180" },
+    palette = "technic_paint_palette.png",
+    inventory_image = "ehlphabet_000.png",
+    paramtype = "light",
+    paramtype2 = "colorwallmounted",
+    drawtype = "nodebox",
+    is_ground_content = false,   
+    drop = key,  -- new
+    node_box = {
+       type = "wallmounted",
+       wall_bottom = {-0.5, -0.5, -0.5, 0.5, -0.49, 0.5},
+       wall_top = {-0.5, 0.49, -0.5, 0.5, 0.5, 0.5},
+       wall_side = {-0.5, -0.5, -0.5, -0.49, 0.5, 0.5},
+    },
+    groups = {attached_node = 1, dig_immediate = 2,  
+       not_in_creative_inventory = 1, 
+       not_blocking_trains = 1 },
+ }
+)
+
+minetest.register_node(
+ key.."_sticker_color_inv",
+ {
+    description = desc.." Colored Sticker",
+    tiles = {{name = "technic_paint.png^[colorize:#ffffff", color = "white"}},
+    overlay_tiles = {"ehlphabet_000.png", 
+    	      "ehlphabet_000.png^[transformR180" },
     palette = "technic_paint_palette.png",
     inventory_image = "ehlphabet_000.png",
     paramtype = "light",

@@ -10,6 +10,17 @@ local S = technic.getter
 local spray_painter_max_charge = 10000
 local spray_painter_cpa = 10
 
+function is_suf(str, suf) 
+	local len = string.len(suf)
+	return (string.sub(str, -len) == suf)
+end
+function contains(arr, el)
+	for _, i in ipairs(arr) do
+		if(i == el) then return true end
+	end
+	return false
+end
+
 local color_modes = {
 	{name = S("Red"), index = 1, n = 2, ct = {"c91818", "730505"}},
 	{name = S("Yellow and Orange"), index = 3, n = 4, ct = {"fcf611", "ffc20b", "e0601a", "b52607"}},
@@ -198,6 +209,24 @@ local function spray_paint(itemstack, user, pointed_thing, ptype)
 			
 			paintable = true
 			
+		-- if pointing at ehlphabet sticker
+		elseif (string.sub(target.name,1,10) == "ehlphabet:" and (is_suf(target.name, "sticker") or is_suf(target.name, "sticker_color") or is_suf(target.name, "sticker_color_inv"))) then
+		
+			if is_suf(target.name, "sticker") then
+				local charcode = string.sub(target.name,11,-9)
+				if not ptype then
+					minetest.swap_node(pointed_thing.under, { name = "ehlphabet:" .. charcode .. "_sticker_color", param2 = target.param2 })
+				else
+					minetest.swap_node(pointed_thing.under, { name = "ehlphabet:block_color_fluorescent", param2 = target.param2 })
+				end
+				target = minetest.get_node_or_nil(pointed_thing.under) 
+			elseif is_suf(target.name, "inv") then
+				minetest.swap_node(pointed_thing.under, {name = string.sub(target.name, 1, -5), param2 = target.param2})
+				target = minetest.get_node_or_nil(pointed_thing.under)
+			end
+			
+			paintable = true
+			
 		-- if pointing at plastic blocks
 		elseif minetest.get_item_group(target.name, "paintable_plastic_block") > 0 then
 			
@@ -239,12 +268,16 @@ local function spray_paint(itemstack, user, pointed_thing, ptype)
 		end
 		if new_cindex > color_modes[meta.mode].index + (color_modes[meta.mode].n - 1) - 1 then
 			new_cindex = color_modes[meta.mode].index - 1
-		end
-		
+		end		
 		minetest.swap_node(pointed_thing.under, {
 									name = target.name, 
 									param2 = new_cindex*8 + orientation
 									})
+		
+		local dark = {0,1,8,9,10,11,12,13,20,21,26,27,28,29}
+		if (is_suf(target.name, "sticker_color") or is_suf(target.name, "sticker_color_fluorescent")) and contains(dark, new_cindex) then
+			minetest.swap_node(pointed_thing.under, {name = target.name .. "_inv", param2 = new_cindex*8 + orientation})
+		end
 		
 		if not technic.creative_mode then
 			meta.charge = meta.charge - spray_painter_cpa
