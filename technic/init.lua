@@ -55,6 +55,10 @@ dofile(modpath.."/machines/init.lua")
 -- Aliases for legacy node/item names
 dofile(modpath.."/legacy.lua")
 
+if minetest.get_modpath("ehlphabet") then
+	dofile(modpath.."/ehlphabet_colored/init.lua")
+end
+
 if minetest.settings:get_bool("log_mods") then
 	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
 end
